@@ -1,0 +1,5 @@
+**/*.pyc
+*.scad
+build/
+dist/
+img2scad.egg-info/

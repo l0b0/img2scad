@@ -1,0 +1,1 @@
+Convert images to black&white before creating height map, if necessary (or warn the user instead, since conversion is not necessarily correct?)
