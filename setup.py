@@ -10,7 +10,7 @@ from img2scad.img2scad import __doc__ as module_doc
 
 setup(
     name = 'img2scad',
-    version = '0.1',
+    version = '0.2',
     description = 'Image to OpenSCAD converter',
     long_description = module_doc,
     url = 'http://github.com/l0b0/img2scad',

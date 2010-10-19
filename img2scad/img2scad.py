@@ -74,11 +74,12 @@ def img2scad(stream, minimum):
     result = ''
 
     result += 'module topography() {\n'
+    result += '    union() {\n'
     for row in range(height):
         for column in range(width):
             pixel = img_matrix[column, row] + minimum
             if pixel != 0:
-                result += '    translate([%(x)s, %(y)s, 0])' % {
+                result += '        translate([%(x)s, %(y)s, 0])' % {
                     'x': BLOCK_SIZE * column - width / 2,
                     'y': -BLOCK_SIZE * row + height / 2
                 }
@@ -87,6 +88,7 @@ def img2scad(stream, minimum):
                     'block_side': BLOCK_SIDE,
                     'height': pixel
                 }
+    result += '    }\n'
     result += '}\n'
     result += 'topography();'
 
