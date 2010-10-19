@@ -16,6 +16,7 @@ __license__ = 'GPLv3'
 
 from doctest import testmod
 from os.path import join, dirname
+from re import search
 import unittest
 
 from img2scad import img2scad
@@ -31,32 +32,20 @@ class TestConvert(unittest.TestCase):
     def test_small(self):
         """Check that a single pixel image gives output."""
         result = img2scad.img2scad(open(EXAMPLE_SMALL), 0)
-        self.assertNotEqual(
-            result,
-            '')
-        self.assertNotEqual(
-            result,
-            'module qrcode() {\n}\nqrcode();')
+        self.assertTrue(search(r'translate.*cube', result))
 
 
     def test_big(self):
         """Check that a big image gives output."""
         result = img2scad.img2scad(open(EXAMPLE_BIG), 1)
-        self.assertNotEqual(
-            result,
-            '')
-        self.assertNotEqual(
-            result,
-            'module qrcode() {\n}\nqrcode();')
+        self.assertTrue(search(r'translate.*cube', result))
 
 
     def test_zero(self):
         """Check that if the minimum is shifted sufficiently, the result is
         empty."""
         result = img2scad.img2scad(open(EXAMPLE_SMALL), -152)
-        self.assertEqual(
-            result,
-            'module topography() {\n}\ntopography();')
+        self.assertFalse(search(r'translate.*cube', result))
 
 
 class TestDoc(unittest.TestCase):
