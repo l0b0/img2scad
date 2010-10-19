@@ -1,27 +1,33 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""img2scad - Convert images to OpenSCAD contours
+"""img2scad - Convert images to OpenSCAD structures
 <http://github.com/l0b0/img2scad>
 
 Default syntax:
 
-img2scad [-m|--minimum=N] < input_file
+img2scad [-b|--base=N] [-l|--log] < input_file
 
 Description:
 
 For each pixel in the input, it will create a cube in the output. The height of
 the cube corresponds to the whiteness of the corresponding pixel.
 
-If -m or --minimum is specified, all values will be shifted by that value. This
-can be positive or negative.
+If -b or --base is specified, all values will be shifted by that value. This
+can be positive or negative. This can be used to output zero values.
+
+If -l or --log is specified, the logarithm of the grey values will be used for the output.
 
 Examples:
 
 img2scad < example.png > example.scad
     Convert example.png to example.scad.
 
-img2scad -m 1 < example.png > example.scad
+img2scad -b 1 < example.png > example.scad
     Convert example.png to example.scad, with a "bedrock" of height 1.
+
+img2scad -b 2 -l < example.png > example.scad
+    Convert example.png to example.scad, taking the logarithm for the height
+    and preserving the black pixels.
 
 <http://www.thingiverse.com/thing:4448>
 
@@ -36,6 +42,7 @@ __copyright__ = 'Copyright (C) 2010 Victor Engmark'
 __license__ = 'GPLv3'
 
 from getopt import getopt, GetoptError
+import math
 from PIL import Image
 from signal import signal, SIGPIPE, SIG_DFL
 import sys
@@ -58,8 +65,8 @@ signal(SIGPIPE, SIG_DFL)
 """Avoid 'Broken pipe' message when canceling piped command."""
 
 
-def img2scad(stream, minimum):
-    """Convert black pixels to OpenSCAD cubes."""
+def img2scad(stream, base = 0, log = False):
+    """Convert pixels to OpenSCAD cubes."""
 
     img = Image.open(stream)
 
@@ -71,23 +78,33 @@ def img2scad(stream, minimum):
 
     img_matrix = img.load()
 
-    result = ''
-
-    result += 'module topography() {\n'
+    result = 'module topography() {\n'
     result += '    union() {\n'
+
     for row in range(height):
         for column in range(width):
-            pixel = img_matrix[column, row] + minimum
-            if pixel != 0:
-                result += '        translate([%(x)s, %(y)s, 0])' % {
-                    'x': BLOCK_SIZE * column - width / 2,
-                    'y': -BLOCK_SIZE * row + height / 2
-                }
-                result += 'cube('
-                result += '[%(block_side)s, %(block_side)s, %(height)s]);\n' % {
-                    'block_side': BLOCK_SIDE,
-                    'height': pixel
-                }
+            pixel = img_matrix[column, row] + base
+
+            if log:
+                # Skip unloggable values
+                if pixel <= 0:
+                    continue
+                pixel = round(math.log(pixel, 2), 2)
+
+            if 0 == pixel:
+                continue
+            
+            # Center cubes in (x, y) plane
+            result += '        translate([%(x)s, %(y)s, 0])' % {
+                'x': BLOCK_SIZE * column - width / 2,
+                'y': -BLOCK_SIZE * row + height / 2
+            }
+            result += 'cube('
+            result += '[%(block_side)s, %(block_side)s, %(height)s]);\n' % {
+                'block_side': BLOCK_SIDE,
+                'height': pixel
+            }
+
     result += '    }\n'
     result += '}\n'
     result += 'topography();'
@@ -101,24 +118,27 @@ def main(argv = None):
         argv = sys.argv
 
     # Defaults
-    minimum = 0
+    log = False
+    base = 0
 
     try:
         opts, args = getopt(
             argv[1:],
-            'm:',
-            ['minimum='])
+            'b:l',
+            ['base=', 'log'])
     except GetoptError, err:
         sys.stderr.write(str(err) + '\n')
         return 2
 
     for option, value in opts:
-        if option in ('-m', '--minimum'):
-            minimum = int(value)
+        if option in ('-b', '--base'):
+            base = int(value)
+        if option in ('-l', '--log'):
+            log = True
 
     assert [] == args, 'There should be no arguments to this command'
 
-    result = img2scad(sys.stdin, minimum)
+    result = img2scad(sys.stdin, base, log)
     print result
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
-img2scad.py - Convert black and white images to OpenSCAD contours.
+img2scad.py - Convert black and white images to OpenSCAD structures.
 
 Installation / upgrade: sudo easy_install -U img2scad
 
