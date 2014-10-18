@@ -40,6 +40,7 @@ __author__ = 'Victor Engmark'
 __email__ = 'victor.engmark@gmail.com'
 __copyright__ = 'Copyright (C) 2010-2014 Victor Engmark'
 __license__ = 'GPLv3'
+__version__ = '0.4'
 
 from getopt import getopt, GetoptError
 import math

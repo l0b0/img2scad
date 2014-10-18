@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 from setuptools import find_packages, setup
-from img2scad.img2scad import __doc__ as module_doc
+from img2scad.img2scad import __doc__, __version__, __author__, __email__
 
 setup(
     name='img2scad',
-    version='0.3',
+    version=__version__,
     description='Image to OpenSCAD converter',
-    long_description=module_doc,
+    long_description=__doc__,
     url='http://github.com/l0b0/img2scad',
     keywords='image images height heightmap heightmaps elevation convert converter OpenSCAD SCAD',
     packages=find_packages(exclude=['tests']),
@@ -25,10 +25,10 @@ setup(
         'Topic :: Multimedia :: Graphics :: Graphics Conversion'
     ],
     test_suite='tests.tests',
-    author='Victor Engmark',
-    author_email='victor.engmark@gmail.com',
-    maintainer='Victor Engmark',
-    maintainer_email='victor.engmark@gmail.com',
+    author=__author__,
+    author_email=__email__,
+    maintainer=__author__,
+    maintainer_email=__email__,
     download_url='http://github.com/l0b0/img2scad',
     platforms=['POSIX', 'Windows'],
     license='GPL v3 or newer')
