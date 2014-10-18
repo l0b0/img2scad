@@ -1,5 +1,5 @@
 img2scad.py - Convert black and white images to OpenSCAD structures.
 
-Installation / upgrade: sudo easy_install -U img2scad
+Installation / upgrade: sudo pip2 install --upgrade img2scad
 
 Dependencies: Python Imaging Library (PIL)
