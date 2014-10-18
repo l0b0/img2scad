@@ -33,12 +33,12 @@ img2scad -b 2 -l < example.png > example.scad
 
 Bugs:
 
-Please email bug reports to victor dot engmark at gmail dot com.
+Please submit bug reports at https://github.com/l0b0/img2scad/issues.
 """
 
 __author__ = 'Victor Engmark'
 __email__ = 'victor.engmark@gmail.com'
-__copyright__ = 'Copyright (C) 2010 Victor Engmark'
+__copyright__ = 'Copyright (C) 2010-2014 Victor Engmark'
 __license__ = 'GPLv3'
 
 from getopt import getopt, GetoptError
