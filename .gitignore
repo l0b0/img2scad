@@ -1,5 +1,7 @@
 **/*.pyc
 *.scad
+.coverage
 build/
 dist/
 img2scad.egg-info/
+virtualenv
