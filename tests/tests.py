@@ -28,67 +28,59 @@ EXAMPLE_SMALL = join(dirname(__file__), './example_1px.png')
 
 class TestConvert(unittest.TestCase):
     """Framework for testing file conversion."""
-    # pylint: disable-msg=R0904
 
     def test_small(self):
         """A single pixel image gives one cube."""
         result = img2scad.img2scad(open(EXAMPLE_SMALL))
         self.assertTrue(search(r'translate.*cube', result))
 
-
     def test_black(self):
         """A black image gives no cubes."""
         result = img2scad.img2scad(open(EXAMPLE_BLACK))
         self.assertFalse(search(r'translate.*cube', result))
 
-
     def test_black_base(self):
         """A black image gives output if a base is applied."""
         result = img2scad.img2scad(
             open(EXAMPLE_BLACK),
-            base = 1)
+            base=1)
         self.assertTrue(search(r'translate.*cube', result))
-
 
     def test_shift_to_zero(self):
         """A non-black pixel can be removed by the base offset."""
         result = img2scad.img2scad(
             open(EXAMPLE_SMALL),
-            base = -152)
+            base=-152)
         self.assertFalse(search(r'translate.*cube', result))
-
 
     def test_log(self):
         """Non-black images should be loggable."""
         result = img2scad.img2scad(
             open(EXAMPLE_SMALL),
-            log = True)
+            log=True)
         self.assertTrue(search(r'translate.*cube', result))
-
 
     def test_log_one(self):
         """Log of 1 is zero."""
         result = img2scad.img2scad(
             open(EXAMPLE_BLACK),
-            base = 1,
-            log = True)
+            base=1,
+            log=True)
         self.assertFalse(search(r'translate.*cube', result))
-
 
     def test_log_zero(self):
         """Log of 0 is undefined, so we skip those."""
         result = img2scad.img2scad(
             open(EXAMPLE_BLACK),
-            log = True)
+            log=True)
         self.assertFalse(search(r'translate.*cube', result))
-
 
     def test_big(self):
         """Check that a big image gives output."""
         result = img2scad.img2scad(
             open(EXAMPLE_BIG),
-            base = 5,
-            log = True)
+            base=5,
+            log=True)
         self.assertTrue(search(r'translate.*cube', result))
 
 

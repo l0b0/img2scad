@@ -65,7 +65,7 @@ signal(SIGPIPE, SIG_DFL)
 """Avoid 'Broken pipe' message when canceling piped command."""
 
 
-def img2scad(stream, base = 0, log = False):
+def img2scad(stream, base=0, log=False):
     """Convert pixels to OpenSCAD cubes."""
 
     img = Image.open(stream)
@@ -93,7 +93,7 @@ def img2scad(stream, base = 0, log = False):
 
             if 0 == pixel:
                 continue
-            
+
             # Center cubes in (x, y) plane
             result += '        translate([%(x)s, %(y)s, 0])' % {
                 'x': BLOCK_SIZE * column - width / 2,
@@ -111,7 +111,8 @@ def img2scad(stream, base = 0, log = False):
 
     return result
 
-def main(argv = None):
+
+def main(argv=None):
     """Argument handling."""
 
     if argv is None:
