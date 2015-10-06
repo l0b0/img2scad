@@ -1,2 +1,2 @@
 language: shell
-script: make MKDIR=/bin/mkdir test
+script: make GREP=/bin/grep LN=/bin/ln MKDIR=/bin/mkdir SH=/bin/sh TAR=/bin/tar test
