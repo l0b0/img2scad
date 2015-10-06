@@ -8,6 +8,8 @@ GIT := /usr/bin/git
 GIT_TAG = $(GIT) tag -au $(GPG_ID)
 
 FIND = /usr/bin/find
+MAKE = /usr/bin/make
+MKDIR = /usr/bin/mkdir
 
 # Python
 SYSTEM_PYTHON = /usr/bin/python2
@@ -38,13 +40,13 @@ test-dependencies: virtualenv
 .PHONY: test
 test: test-dependencies
 	. virtualenv/bin/activate && \
-		make METHOD=git python-pep8 && \
+		$(MAKE) METHOD=git python-pep8 && \
 		coverage run $(SETUP) test && \
 		coverage report --include='$(NAME)/*' --fail-under=67
 
 .PHONY: build
 build: test virtualenv
-	mkdir -p $@
+	$(MKDIR) -p $@
 	. virtualenv/bin/activate && \
 		python $(SETUP) build
 
