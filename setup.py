@@ -10,7 +10,7 @@ setup(
     url='http://github.com/l0b0/img2scad',
     keywords='image images height heightmap heightmaps elevation convert converter OpenSCAD SCAD',
     packages=find_packages(exclude=['tests']),
-    install_requires=['Pillow==2.6.1'],
+    install_requires=['Pillow==6.2.0'],
     entry_points={
         'console_scripts': ['img2scad=img2scad.img2scad:main']},
     classifiers=[
