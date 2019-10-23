@@ -1,5 +1,7 @@
-img2scad
+[img2scad](https://gitlab.com/victor-engmark/img2scad)
 ========
+
+**This project has a new home at https://gitlab.com/victor-engmark/img2scad**
 
 [![Build Status](https://travis-ci.org/l0b0/img2scad.svg)](https://travis-ci.org/l0b0/img2scad)
 
